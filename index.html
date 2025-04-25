@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Broken Security</title>
+  <style>
+    :root {
+      --bg-light: #f5f5f5;
+      --bg-dark: #1a1a1a;
+      --text-light: #1a1a1a;
+      --text-dark: #f5f5f5;
+      --primary: #6c63ff;
+      --card-bg-light: white;
+      --card-bg-dark: #2a2a2a;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-light);
+      transition: background 0.3s, color 0.3s;
+    }
+
+    body.dark {
+      background-color: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: #3a3f4b; /* لون رمادي أزرق */
+      color: white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-tabs a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      transition: opacity 0.2s;
+    }
+
+    .nav-tabs a:hover {
+      opacity: 0.8;
+    }
+
+    .theme-toggle {
+      background: #fff;
+      border: none;
+      width: 50px;
+      height: 25px;
+      border-radius: 30px;
+      position: relative;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .toggle-circle {
+      width: 21px;
+      height: 21px;
+      background: var(--primary);
+      border-radius: 50%;
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      transition: left 0.3s;
+    }
+
+    body.dark .toggle-circle {
+      left: 27px;
+    }
+
+    #content {
+      padding: 2rem;
+    }
+
+    .blog-name {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: white;
+      margin-left: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+    }
+
+    /* Cards */
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .card {
+      background: var(--card-bg-light);
+      padding: 1.2rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.02);
+      background: #ececec;
+    }
+
+    body.dark .card {
+      background: var(--card-bg-dark);
+    }
+
+    body.dark .card:hover {
+      background: #333;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="blog-name">Broken Security</div>
+    <div class="nav-tabs">
+      <a href="#writeups" onclick="showTab('writeups')">Writeups</a>
+      <a href="#about" onclick="showTab('about')">About Me</a>
+      <a href="#contact" onclick="showTab('contact')">Contact</a>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()">
+      <div class="toggle-circle"></div>
+    </button>
+  </nav>
+
+  <div id="content">
+    <div id="writeups" class="tab">
+      <h2>Writeups</h2>
+      <div class="cards-container">
+        <div class="card" onclick="location.href='writeup.html?id=2'">
+          <h3>test</h3>
+          <p>📅 2025-03-28</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="about" class="tab" style="display:none;">
+      <h2>About Me</h2>
+      <p>full time bug hunter and php & python developer </p>
+    </div>
+
+    <div id="contact" class="tab" style="display:none;">
+      <h2>Contact</h2>
+      <p>you can contact me on</p>
+      <ul>
+        <li>Twitter: @0xmedex</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+    }
+
+    function showTab(tabName) {
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.style.display = 'none';
+      });
+      document.getElementById(tabName).style.display = 'block';
+    }
+
+    // Show writeups tab by default
+    showTab('writeups');
+  </script>
+</body>
+</html>
