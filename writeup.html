@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Writeup</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+      color: #1a1a1a;
+    }
+
+    header {
+      background-color: #3a3f4b;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-tabs a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      margin-right: 1.5rem;
+    }
+
+    .theme-toggle {
+      background: #fff;
+      border: none;
+      width: 50px;
+      height: 25px;
+      border-radius: 30px;
+      position: relative;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .toggle-circle {
+      width: 21px;
+      height: 21px;
+      background: #6c63ff;
+      border-radius: 50%;
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      transition: left 0.3s;
+    }
+
+    body.dark .toggle-circle {
+      left: 27px;
+    }
+
+    .container {
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .writeup-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .writeup-content h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .writeup-content p {
+      line-height: 1.6;
+      font-size: 1.1rem;
+    }
+
+    body.dark .writeup-content {
+      background-color: #2a2a2a;
+      color: #f5f5f5;
+    }
+
+    body.dark .writeup-content h2 {
+      color: #e5e5e5;
+    }
+
+    .writeup-date {
+      font-style: italic;
+      color: #6c63ff;
+      margin-top: -10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav-tabs">
+      <a href="index.html">Home</a>
+      <a href="#about">About Me</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()">
+      <div class="toggle-circle"></div>
+    </button>
+  </header>
+
+  <div class="container">
+    <div class="writeup-content">
+      <h2 id="writeup-title">Loading...</h2>
+      <p class="writeup-date" id="writeup-date">Loading date...</p>
+      <p id="writeup-content">Loading content...</p>
+    </div>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+    }
+
+    // Get the 'id' parameter from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const writeupId = urlParams.get('id');
+
+    if (writeupId) {
+      // Construct the URL to fetch the content (assuming the JSON file is on a server)
+      const contentUrl = `https://0xmedex.github.io/writeups/${writeupId}.json`;
+
+      // Fetch the content from the JSON file
+      fetch(contentUrl)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Content not found');
+          }
+          return response.json();
+        })
+        .then(data => {
+          document.getElementById('writeup-title').innerText = data.title;
+          document.getElementById('writeup-content').innerText = data.content;
+          document.getElementById('writeup-date').innerText = `Published on: ${data.date}`;
+        })
+        .catch(error => {
+          document.getElementById('writeup-title').innerText = 'Error';
+          document.getElementById('writeup-content').innerText = 'Unable to load the content. Please try again later.';
+        });
+    } else {
+      document.getElementById('writeup-title').innerText = 'Error';
+      document.getElementById('writeup-content').innerText = 'No writeup ID provided.';
+    }
+  </script>
+</body>
+</html>
