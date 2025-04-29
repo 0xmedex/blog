@@ -111,10 +111,10 @@
   <!-- Navigation Bar -->
   <nav>
     <ul>
-      <li><a href="#home" class="nav-link" onclick="showSection('home')">Home</a></li>
-      <li><a href="#writeups" class="nav-link" onclick="showSection('writeups')">Writeups</a></li>
-      <li><a href="#about" class="nav-link" onclick="showSection('about')">About Me</a></li>
-      <li><a href="#contact" class="nav-link" onclick="showSection('contact')">Contact Me</a></li>
+      <li><a href="index.html#home" class="nav-link" onclick="showSection('home')">Home</a></li>
+      <li><a href="index.html#writeups" class="nav-link" onclick="showSection('writeups')">Writeups</a></li>
+      <li><a href="index.html#about" class="nav-link" onclick="showSection('about')">About Me</a></li>
+      <li><a href="index.html#contact" class="nav-link" onclick="showSection('contact')">Contact Me</a></li>
     </ul>
   </nav>
 
@@ -132,21 +132,23 @@
 
       <!-- Writeup 1 -->
       <div class="writeup-card">
-        <h3>0-click Account takeover on client websites</h3>
+        <h3>Stored XSS in Video Embedding Feature leads to 0-click account takeover on client websites</h3>
         <div class="date">Published on: 2025-04-30</div>
-        <p>How I discovered a 0-click account takeover on client websites</p>
+        <p>How I discovered a Stored XSS in Video Embedding Feature</p>
         <a href="writeup1.html">Read More</a>
       </div>
+    </section>
+
     <!-- About Me Section -->
     <section id="about" style="display:none;">
       <h2>About Me</h2>
-      <p>I am Ahmed, a full-time bug hunter, and also known as 0xmedex. I enjoy discovering vulnerabilities in websites</p>
+      <p>I am Ahmed, a full-time bug hunter, and also known as 0xmedex. I enjoy discovering vulnerabilities in websites.</p>
     </section>
 
     <!-- Contact Me Section -->
     <section id="contact" style="display:none;">
       <h2>Contact Me</h2>
-      <p>You can contact me on Twitter at the username @0xmedex</p>
+      <p>You can contact me on Twitter at the username @0xmedex.</p>
     </section>
   </div>
 
@@ -154,14 +156,19 @@
     // Show the selected section
     function showSection(section) {
       const sections = document.querySelectorAll('section');
-      sections.forEach((section) => {
-        section.style.display = 'none';
+      sections.forEach((sec) => {
+        sec.style.display = 'none'; // Hide all sections
       });
 
       const activeSection = document.getElementById(section);
       if (activeSection) {
-        activeSection.style.display = 'block';
+        activeSection.style.display = 'block'; // Show the selected section
       }
+    }
+
+    // Optionally, set a default section to display on load (e.g., home)
+    window.onload = function() {
+      showSection('home'); // Default to showing the 'home' section
     }
   </script>
 
