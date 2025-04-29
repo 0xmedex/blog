@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Writeup - My Security Blog</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Base styles for the page */
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Darker color for nav */
+    nav {
+      background-color: #004085; /* Darker blue color */
+      padding: 1rem;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    nav ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li {
+      display: inline;
+      margin-right: 15px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: white;
+      font-size: 1.1rem;
+    }
+
+    nav ul li a:hover {
+      color: #ddd;
+    }
+
+    /* Writeup content */
+    .writeup-container {
+      margin: 20px;
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .writeup-container h1 {
+      color: #007BFF;
+    }
+
+    .writeup-container .date {
+      font-size: 0.9rem;
+      color: #777;
+    }
+
+    .writeup-container p {
+      margin-top: 10px;
+      font-size: 1rem;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      nav ul li {
+        display: block;
+        margin-bottom: 10px;
+        text-align: left;
+      }
+
+      .writeup-container {
+        margin: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#writeups" onclick="showSection('writeups')">Writeups</a></li>
+      <li><a href="index.html#about" onclick="showSection('about')">About Me</a></li>
+      <li><a href="index.html#contact" onclick="showSection('contact')">Contact Me</a></li>
+    </ul>
+  </nav>
+
+  <!-- Writeup Content -->
+  <div class="writeup-container">
+    <h1>Stored XSS in Video Embedding Feature leads to 0-click account takeover on client websites</h1>
+    <div class="date">Published on: 2025-04-30</div>
+    <p>Hello,
+In this write-up, I’ll explain a vulnerability I discovered recently on a platform that allows users to upload and embed videos into websites — similar to a CDN</p>
+    <h4>Background</h4>
+    <p>The application allows users to upload videos and generates an embed code that can be used to insert the video into any external website. During the upload process, users are allowed to set a custom title for the video</p>
+    <p>I discovered that this title is directly reflected in the generated embed code without any sanitization or encoding, which leads to a XSS vulnerability </p>
+    <h3>Steps to Reproduce</h3>
+    <p>1.The attacker uploads a video to the platform</p>
+    <p>2.During the upload, he set the video title to the following payload:<code>&quot;&gt;&lt;script&gt;alert(0)&lt;/script&gt;</code></p>
+    <p>3.The platform generates an embed code containing the video title</p>
+    <p>When a developer copies and uses this code on his website, the malicious script executes in the context of that site</p>
+    <h3>impact</h3>
+    <ul>
+  <li>Stored XSS on any site embedding the video using the platform’s code</li>
+  <li>Allows an attacker to:<ul>
+    <li>Steal user sessions</li>
+    <li>Potentially achieve Remote Code Execution (RCE) via Server-Side Template Injection (SSTI), if the embed system uses template engines that evaluate input</li>
+  </ul></li>
+</ul>
+    <h3>Report & Response</h3>
+    <p>The vulnerability was reported as High severity, but the program team downgraded it to Medium severity</p>
+    <h3>bounty</h3>
+    <p>Despite the severity downgrade, I received a $$$ bounty for reporting this vulnerability</p>
+    <a href="index.html">Back to Home</a>
+  </div>
+
+  <script>
+    // Show the selected section
+    function showSection(section) {
+      const sections = document.querySelectorAll('section');
+      sections.forEach((section) => {
+        section.style.display = 'none';
+      });
+
+      const activeSection = document.getElementById(section);
+      if (activeSection) {
+        activeSection.style.display = 'block';
+      }
+    }
+  </script>
+
+</body>
+</html>
