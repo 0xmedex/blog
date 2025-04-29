@@ -1,182 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Broken Security</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Security Blog</title>
+  <link rel="stylesheet" href="styles.css" />
   <style>
-    :root {
-      --bg-light: #f5f5f5;
-      --bg-dark: #1a1a1a;
-      --text-light: #1a1a1a;
-      --text-dark: #f5f5f5;
-      --primary: #6c63ff;
-      --card-bg-light: white;
-      --card-bg-dark: #2a2a2a;
-    }
-
+    /* Base styles for the page */
     body {
-      margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background-color: var(--bg-light);
-      color: var(--text-light);
-      transition: background 0.3s, color 0.3s;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
-    body.dark {
-      background-color: var(--bg-dark);
-      color: var(--text-dark);
-    }
-
+    /* Darker color for nav */
     nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      background-color: #3a3f4b; /* لون رمادي أزرق */
-      color: white;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      background-color: #004085; /* Darker blue color */
+      padding: 1rem;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
 
-    .nav-tabs {
-      display: flex;
-      gap: 1.5rem;
-    }
-
-    .nav-tabs a {
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-      transition: opacity 0.2s;
-    }
-
-    .nav-tabs a:hover {
-      opacity: 0.8;
-    }
-
-    .theme-toggle {
-      background: #fff;
-      border: none;
-      width: 50px;
-      height: 25px;
-      border-radius: 30px;
-      position: relative;
-      cursor: pointer;
+    nav ul {
+      list-style-type: none;
+      margin: 0;
       padding: 0;
     }
 
-    .toggle-circle {
-      width: 21px;
-      height: 21px;
-      background: var(--primary);
-      border-radius: 50%;
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      transition: left 0.3s;
+    nav ul li {
+      display: inline;
+      margin-right: 15px;
     }
 
-    body.dark .toggle-circle {
-      left: 27px;
-    }
-
-    #content {
-      padding: 2rem;
-    }
-
-    .blog-name {
-      font-size: 1.5rem;
-      font-weight: bold;
+    nav ul li a {
+      text-decoration: none;
       color: white;
-      margin-left: 2rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      cursor: pointer;
+      font-size: 1.1rem;
     }
 
-    /* Cards */
-    .cards-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1rem;
+    nav ul li a:hover {
+      color: #ddd;
     }
 
-    .card {
-      background: var(--card-bg-light);
-      padding: 1.2rem;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      cursor: pointer;
-      transition: transform 0.2s ease, background 0.2s ease;
+    /* Writeup Cards */
+    .writeup-card {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 15px 0;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
-    .card:hover {
-      transform: scale(1.02);
-      background: #ececec;
+    .writeup-card h3 {
+      color: #007BFF;
+      margin-bottom: 10px;
     }
 
-    body.dark .card {
-      background: var(--card-bg-dark);
+    .writeup-card .date {
+      font-size: 0.9rem;
+      color: #777;
     }
 
-    body.dark .card:hover {
-      background: #333;
+    .writeup-card p {
+      margin-top: 10px;
+      font-size: 1rem;
+    }
+
+    .writeup-card a {
+      text-decoration: none;
+      color: #007BFF;
+      font-weight: bold;
+    }
+
+    .writeup-card a:hover {
+      color: #333;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      nav ul li {
+        display: block;
+        margin-bottom: 10px;
+        text-align: left;
+      }
+
+      .container {
+        padding: 1rem;
+      }
+
+      nav ul {
+        text-align: left;
+      }
+
+      nav {
+        background-color: #004085; /* Darker blue for mobile */
+      }
+
+      .writeup-card {
+        margin: 10px 0;
+      }
     }
   </style>
 </head>
 <body>
+
+  <!-- Navigation Bar -->
   <nav>
-    <div class="blog-name">Broken Security</div>
-    <div class="nav-tabs">
-      <a href="#writeups" onclick="showTab('writeups')">Writeups</a>
-      <a href="#about" onclick="showTab('about')">About Me</a>
-      <a href="#contact" onclick="showTab('contact')">Contact</a>
-    </div>
-    <button class="theme-toggle" onclick="toggleTheme()">
-      <div class="toggle-circle"></div>
-    </button>
+    <ul>
+      <li><a href="#home" class="nav-link" onclick="showSection('home')">Home</a></li>
+      <li><a href="#writeups" class="nav-link" onclick="showSection('writeups')">Writeups</a></li>
+      <li><a href="#about" class="nav-link" onclick="showSection('about')">About Me</a></li>
+      <li><a href="#contact" class="nav-link" onclick="showSection('contact')">Contact Me</a></li>
+    </ul>
   </nav>
 
-  <div id="content">
-    <div id="writeups" class="tab">
+  <!-- Main Content -->
+  <div class="container">
+    <!-- Home Section -->
+    <section id="home">
+      <h1>Welcome to My Security Blog</h1>
+      <p>This is where I write about my findings on security vulnerabilities.</p>
+    </section>
+
+    <!-- Writeups Section -->
+    <section id="writeups" style="display:none;">
       <h2>Writeups</h2>
-      <div class="cards-container">
-        <div class="card" onclick="location.href='writeup.html?id=2'">
-          <h3>test</h3>
-          <p>📅 2025-03-28</p>
-        </div>
+
+      <!-- Writeup 1 -->
+      <div class="writeup-card">
+        <h3>XSS in Login Page</h3>
+        <div class="date">Published on: 2025-04-28</div>
+        <p>Explained how I found an XSS vulnerability on a login page...</p>
+        <a href="writeup1.html">Read More</a>
       </div>
-    </div>
 
-    <div id="about" class="tab" style="display:none;">
+      <!-- Writeup 2 -->
+      <div class="writeup-card">
+        <h3>Broken Access Control in Admin Panel</h3>
+        <div class="date">Published on: 2025-04-15</div>
+        <p>How I accessed the admin panel without proper authorization...</p>
+        <a href="writeup2.html">Read More</a>
+      </div>
+
+      <!-- Writeup 3 -->
+      <div class="writeup-card">
+        <h3>SQL Injection in Search Endpoint</h3>
+        <div class="date">Published on: 2025-03-10</div>
+        <p>Discovered an SQL injection vulnerability in the search functionality...</p>
+        <a href="writeup3.html">Read More</a>
+      </div>
+    </section>
+
+    <!-- About Me Section -->
+    <section id="about" style="display:none;">
       <h2>About Me</h2>
-      <p>full time bug hunter and php & python developer </p>
-    </div>
+      <p>I'm a security researcher who loves finding bugs in websites and applications...</p>
+    </section>
 
-    <div id="contact" class="tab" style="display:none;">
-      <h2>Contact</h2>
-      <p>you can contact me on</p>
-      <ul>
-        <li>Twitter: @0xmedex</li>
-      </ul>
-    </div>
+    <!-- Contact Me Section -->
+    <section id="contact" style="display:none;">
+      <h2>Contact Me</h2>
+      <p>You can reach out to me via email at: example@example.com</p>
+    </section>
   </div>
 
   <script>
-    function toggleTheme() {
-      document.body.classList.toggle('dark');
-    }
-
-    function showTab(tabName) {
-      document.querySelectorAll('.tab').forEach(tab => {
-        tab.style.display = 'none';
+    // Show the selected section
+    function showSection(section) {
+      const sections = document.querySelectorAll('section');
+      sections.forEach((section) => {
+        section.style.display = 'none';
       });
-      document.getElementById(tabName).style.display = 'block';
-    }
 
-    // Show writeups tab by default
-    showTab('writeups');
+      const activeSection = document.getElementById(section);
+      if (activeSection) {
+        activeSection.style.display = 'block';
+      }
+    }
   </script>
+
 </body>
 </html>
